@@ -1,6 +1,6 @@
 ﻿## R for SQL Professionals Lab (Student).R
 ## Buck Woody, Microsoft
-## Last Updated: 18 April 2017
+## Last Updated: 28 May 2017
 ## Based on the CRAN Course located here:https://cran.r-project.org/doc/manuals/r-release/R-intro.html
 ## You will read through the material below along with the course "R for SQL Professionals"
 ## Anything using one # or two ## signs is for you to read and follow along, anything with ### is your assignment when you get to that portion of the class.
@@ -67,7 +67,7 @@
 		## Remove a Package
 		? remove.packages
 
-#2. Data Structures - http://adv-r.had.co.nz/Data-structures.html
+#2.0 Data Structures - http://adv-r.had.co.nz/Data-structures.html
 	##2.1 R Data Types
 	##2.2 R Data Structures
 
@@ -145,7 +145,7 @@
 		df <- data.frame(x, y, z)
 		df
 
-#3. Data Ingress and Connection Options
+#3.0 Data Ingress and Connection Options
 	#3.1 Scripts
 		## Load an R Script:
 		source("c:\\temp\\SampleScript.R")
@@ -155,6 +155,9 @@
 		HousePrice <- read.table("c:\\temp\\houses.csv", header = TRUE)
 		### Use a graphical menu to select a file and it read in, and explore that data (you may have to create one first):
 
+		### Read the file "		data <- read.csv("https://aql.datapress.com/leeds/dataset/polling-station-locations/2016-03-17T10:33:18/Polling%20stations.csv")" and load it into an object called webdata
+		data <- read.csv("https://aql.datapress.com/leeds/dataset/polling-station-locations/2016-03-17T10:33:18/Polling%20stations.csv")
+		
 	#3.3 Exporting Data
 		## Send all output to file
 		sink("c:\\temp\\output.txt")
@@ -177,7 +180,7 @@
 
 	### Clean up - use with care!
 
-#4. R Functions
+#4.0 R Functions
 	## 4.1 Basic Functions:
 	x <- cars
 	str(x)
@@ -290,7 +293,9 @@
 
 		### Create a function that calculates the amount of money spent on a meeting by the number of people in that meeting. If the cost is higher than 1,000, tell the person they are wasting money:
 
-#5. Visualization
+#5.0 Visualization - check out http://www.joyce-robbins.com/wp-content/uploads/2016/04/effectivegraphsmro1.pdf
+	## packages: base, ggplot2, lattice, HH, MASS and micromapST
+	
 	#5.1 Plot
 	## Example for cars dataset
 	require(stats) # for lowess, rpois, rnorm
@@ -300,8 +305,7 @@
 	plot(sin, - pi, 2 * pi)
 
 	## Discrete Distribution Plot:
-	plot(table(rpois(100, 5)), type = "h", col = "red", lwd = 10,
-		 main = "rpois(100, lambda = 5)")
+	plot(table(rpois(100, 5)), type = "h", col = "red", lwd = 10, main = "rpois(100, lambda = 5)")
 
 	## Simple quantiles/ECDF, see ecdf() {library(stats)} for a better one
 	plot(x <- sort(rnorm(47)), type = "s", main = "plot(x, type = \"s\")")
@@ -329,6 +333,25 @@
 	### Using the anscombe dataset, create a visual for the data:
 
 #### 6: Optional full examples
+
+# An interesting experience, which puts your knowledge together - 
+# Wordcloud in R
+# https://cran.r-project.org/web/packages/wordcloud/wordcloud.pdf 
+install.packages("tm")
+install.packages("wordcloud")
+install.packages("SnowballC")
+require(tm)
+require(wordcloud)
+require(SnowballC)
+## - Note: Create a directory, and any files you put there will be read in by this command!
+x <- Corpus(DirSource("d:/test/"))
+inspect(x)
+x <- tm_map(x, stripWhitespace)
+x <- tm_map(x, tolower)
+x <- tm_map(x, removeWords, stopwords("english"))
+x <- tm_map(x, stemDocument)
+wordcloud(x, scale=c(5,0.5), max.words=100, random.order=FALSE, rot.per=0.35, use.r.layout=FALSE, colors=brewer.pal(8, "Dark2"))
+
 
 ## make the bins smaller, make a plot of density
 hist(faithful$eruptions, seq(1.6, 5.2, 0.2), prob = TRUE)

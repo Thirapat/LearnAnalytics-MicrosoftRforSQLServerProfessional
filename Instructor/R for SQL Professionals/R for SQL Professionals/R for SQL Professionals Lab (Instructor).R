@@ -1,6 +1,6 @@
 ## R for SQL Professionals Lab (Instructor).R
 ## Buck Woody, Microsoft
-## Last Updated: 18 April 2017
+## Last Updated: 10 June 2017
 ## Based on the CRAN Course located here:https://cran.r-project.org/doc/manuals/r-release/R-intro.html
 ## Note - R Allows you to work with Statistics, which this course does not cover. You should be familiar with the following terms:
 ## Finite and infinite probability, Joint/addition/multiplication/conditional probability operations, Combination and permutation, the seven fundamental rules of probability theory, Random sampling, Over - fitting, Sampling with and without replacement, Histograms and ogives, Cumulative percentages, Population distribution, Stem and leaf graphs, S - shaped curve, Data distribution(middle value measurements and range), Central tendency and dispersion(variance), Tchebysheff Inequality Theorem, Central Limit Theorem, Binomial distributions, Normal distribution,  Chi - squared, t and F distributions, Hypothesis testing, Confidence intervals, Standard error, Type I and II errors, Correlation, Regression, Significance testing, Cross validation, jackknife and bootstrap replication of study
@@ -9,7 +9,7 @@
 	##1.1 R Ecostructure, Installation
 	##1.2 Microsoft R
 	##1.3 R Client and Environment
-  ### Start the HTML interface to on-line help (using a web browser available at your machine). Open help this way and briefly explore the features of this facility with the mouse:
+	### Start the HTML interface to on-line help (using a web browser available at your machine). Open help this way and briefly explore the features of this facility with the mouse:
 		help.start()
 		### Show one example of the help function. Is there more than one way to do that?
 		help(solve)
@@ -80,7 +80,7 @@
 		## Remove a Package
 		?remove.packages
 
-#2. Data Structures - http://adv-r.had.co.nz/Data-structures.html
+#2.0 Data Structures - http://adv-r.had.co.nz/Data-structures.html
 	##2.1 R Data Types
 	##2.2 R Data Structures
 	### Create an object holding a range of values from 1 to 20. Create another object showing whether all values are higher than 15. Show the type of the two objects:
@@ -198,7 +198,7 @@
 		df <- data.frame(x, y, z)
 		df
 
-#3. Data Ingress and Connection Options
+#3.0 Data Ingress and Connection Options
 	#3.1 Scripts
 		## Load an R Script:
 		source("c:/temp/SampleScript.R")
@@ -208,6 +208,10 @@
 		HousePrice <- read.table("c:\\temp\\houses.csv", header = TRUE)
 		### Use a graphical menu to select a file it read in, and explore that data (you may have to create one first):
         HVAC = read.table(file = file.choose())
+		### Read the file "		data <- read.csv("https://aql.datapress.com/leeds/dataset/polling-station-locations/2016-03-17T10:33:18/Polling%20stations.csv")" and load it into an object called webdata
+		webdata <- read.csv("https://aql.datapress.com/leeds/dataset/polling-station-locations/2016-03-17T10:33:18/Polling%20stations.csv")
+		webdata
+		## More info here: https://data.gov.uk/dataset/polling-station-locations
 
 	#3.3 Exporting Data
 		## Send all output to file
@@ -237,7 +241,7 @@
 	### Clean up - use with care!
 	rm(list = ls())
 
-#4. R Functions
+#4.0 R Functions
 	## 4.1 Basic Functions:
 	x <- cars
 	str(x)
@@ -363,7 +367,9 @@
 		}
 		costCalc(25, 2)
 
-#5. Visualization
+#5.0 Visualization - check out http://www.joyce-robbins.com/wp-content/uploads/2016/04/effectivegraphsmro1.pdf
+	## packages: base, ggplot2, lattice, HH, MASS and micromapST
+	
 	#5.1 Plot
 	## Example for cars dataset
 	require(stats) # for lowess, rpois, rnorm
@@ -373,8 +379,7 @@
 	plot(sin, - pi, 2 * pi)
 
 	## Discrete Distribution Plot:
-	plot(table(rpois(100, 5)), type = "h", col = "red", lwd = 10,
-		 main = "rpois(100, lambda = 5)")
+	plot(table(rpois(100, 5)), type = "h", col = "red", lwd = 10, main = "rpois(100, lambda = 5)")
 
 	## Simple quantiles/ECDF, see ecdf() {library(stats)} for a better one
 	plot(x <- sort(rnorm(47)), type = "s", main = "plot(x, type = \"s\")")
@@ -408,6 +413,24 @@
 
 
 #### Optional full examples
+
+# An interesting experience, which puts your knowledge together - 
+# Wordcloud in R
+# https://cran.r-project.org/web/packages/wordcloud/wordcloud.pdf 
+install.packages("tm")
+install.packages("wordcloud")
+install.packages("SnowballC")
+require(tm)
+require(wordcloud)
+require(SnowballC)
+x <- Corpus(DirSource("d:/test/"))
+inspect(x)
+x <- tm_map(x, stripWhitespace)
+x <- tm_map(x, tolower)
+x <- tm_map(x, removeWords, stopwords("english"))
+x <- tm_map(x, stemDocument)
+wordcloud(x, scale=c(5,0.5), max.words=100, random.order=FALSE, rot.per=0.35, use.r.layout=FALSE, colors=brewer.pal(8, "Dark2"))
+
 
 ## make the bins smaller, make a plot of density
 hist(faithful$eruptions, seq(1.6, 5.2, 0.2), prob = TRUE)
